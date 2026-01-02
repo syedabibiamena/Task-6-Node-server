@@ -51,6 +51,8 @@ node server.js
 - Modular server code
 - Custom 404 error page
 - CSS styling and image support
+
+- 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/f6e0b846-1886-42c1-9b38-12e2370eef93" />
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/39844885-b167-4bf8-9d82-7464051aa492" />
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b4efa4ed-4821-4a77-9991-8725bc3adb80" />
