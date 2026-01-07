@@ -28,10 +28,19 @@ node server.js
 - http://localhost:3000/about
 - http://localhost:3000/contact
 
-- 
+
+Below Screenshot is of the home page which uses "/home" route.
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/f6e0b846-1886-42c1-9b38-12e2370eef93" />
+
+Below is the screenshot of "about us" that runs on "/about" route.
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/39844885-b167-4bf8-9d82-7464051aa492" />
+
+Below is the screenshot of "conatact" that runs on "/contact" route.
+
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b4efa4ed-4821-4a77-9991-8725bc3adb80" />
+
+
+Below is the screenshot of which gives the error message 404 when any other route is hit.
 - <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/6eb6dad4-a13f-447d-9129-f71f9d165d77" />
 
 
