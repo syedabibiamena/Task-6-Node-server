@@ -3,84 +3,83 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
-
-const fileName = fileURLToPath(import.meta.url);
-const folderName = path.dirname(fileName);
-
-
+const currentFile = fileURLToPath(import.meta.url);
+const currentFolder = path.dirname(currentFile);
 const PORT = 3000;
-
-
-function sendFile(response, filePath, type = "text/html", status = 200) {
-  fs.readFile(filePath, function (error, data) {
-    if (error) {
-      response.writeHead(500, { "Content-Type": "text/plain" });
-      response.end("Server Error");
+function readAndSend(res, filePath, contentType, statusCode) {
+  fs.readFile(filePath, function (err, data) {
+    if (err) {
+      res.writeHead(500, { "Content-Type": "text/plain" });
+      res.end("Server Error");
     } else {
-      response.writeHead(status, { "Content-Type": type });
-      response.end(data);
+      res.writeHead(statusCode, { "Content-Type": contentType });
+      res.end(data);
     }
   });
 }
 
+/* create server */
+const server = http.createServer(function (req, res) {
+  const reqUrl = req.url;
 
-const server = http.createServer(function (request, response) {
-  const url = request.url;
 
-  
-  if (url === "/styles/style.css") {
-    sendFile(
-      response,
-      path.join(folderName, "styles", "style.css"),
-      "text/css"
+  if (reqUrl === "/styles/style.css") {
+    readAndSend(
+      res,
+      path.join(currentFolder, "styles", "style.css"),
+      "text/css",
+      200
     );
   }
 
+  else if (reqUrl.startsWith("/images/")) {
+    const imagePath = path.join(currentFolder, reqUrl);
+    const ext = path.extname(imagePath);
 
-  else if (url.startsWith("/images/")) {
-    const imgPath = path.join(folderName, url);
-    const extension = path.extname(imgPath);
+    let imageType = "image/jpeg";
+    if (ext === ".png") {
+      imageType = "image/png";
+    }
 
-    let imgType = "image/jpeg";
-    if (extension === ".png") imgType = "image/png";
-    if (extension === ".jpg") imgType = "image/jpeg";
-
-    sendFile(response, imgPath, imgType);
+    readAndSend(res, imagePath, imageType, 200);
   }
-
-  
-  else if (url === "/" || url === "/home") {
-    sendFile(response, path.join(folderName, "pages", "home.html"));
+  else if (reqUrl === "/" || reqUrl === "/home") {
+    readAndSend(
+      res,
+      path.join(currentFolder, "pages", "home.html"),
+      "text/html",
+      200
+    );
   }
-
-  
-  else if (url === "/about") {
-    sendFile(response, path.join(folderName, "pages", "about.html"));
+  else if (reqUrl === "/about") {
+    readAndSend(
+      res,
+      path.join(currentFolder, "pages", "about.html"),
+      "text/html",
+      200
+    );
   }
-
-  
-  else if (url === "/contact") {
-    sendFile(response, path.join(folderName, "pages", "contact.html"));
+  else if (reqUrl === "/contact") {
+    readAndSend(
+      res,
+      path.join(currentFolder, "pages", "contact.html"),
+      "text/html",
+      200
+    );
   }
-
-  
-  else if (url === "/favicon.ico") {
-    response.writeHead(204);
-    response.end();
+  else if (reqUrl === "/favicon.ico") {
+    res.writeHead(204);
+    res.end();
   }
-
-  
   else {
-    sendFile(
-      response,
-      path.join(folderName, "pages", "404.html"),
+    readAndSend(
+      res,
+      path.join(currentFolder, "pages", "404.html"),
       "text/html",
       404
     );
   }
 });
-
-
 server.listen(PORT, function () {
-  console.log("Server started on http://localhost:" + PORT);
+  console.log("Server running at http://localhost:" + PORT);
 });
